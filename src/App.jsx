@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { IOSDevice } from './components/IOSFrame.jsx'
 import HomeScreen from './screens/HomeScreen.jsx'
 import ListScreen from './screens/ListScreen.jsx'
+import ListByContinentScreen from './screens/ListByContinentScreen.jsx'
+import MapScreen from './screens/MapScreen.jsx'
 import DetailScreen from './screens/DetailScreen.jsx'
 
 export default function App() {
@@ -23,6 +25,32 @@ export default function App() {
     })
   }
 
+  // Replace current route without pushing to history (used for prev/next in detail)
+  const replaceRoute = (name, country = null) => {
+    setRoute({ name, country })
+    requestAnimationFrame(() => {
+      const root = document.querySelector('.app-root')
+      if (root) root.scrollTop = 0
+    })
+  }
+
+  // Close detail — goes back to origin screen (home or list), not prev detail
+  const closeDetail = () => {
+    const origin = [...history].reverse().find(r => r.name !== 'detail')
+    if (origin) {
+      const idx = history.lastIndexOf(origin)
+      setHistory(h => h.slice(0, idx))
+      setRoute(origin)
+    } else {
+      setHistory([])
+      setRoute({ name: 'home', country: null })
+    }
+    requestAnimationFrame(() => {
+      const root = document.querySelector('.app-root')
+      if (root) root.scrollTop = 0
+    })
+  }
+
   const goBack = () => {
     if (history.length > 0) {
       const prev = history[history.length - 1]
@@ -38,7 +66,6 @@ export default function App() {
   }
 
   const pickCountry = (country) => navigate('detail', country)
-  const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light')
   const dark = theme === 'dark'
 
   let screen
@@ -46,15 +73,25 @@ export default function App() {
     screen = (
       <HomeScreen
         theme={theme}
-        onToggleTheme={toggleTheme}
+        onToggleTheme={() => setTheme(t => t === 'light' ? 'dark' : 'light')}
         onNavigate={(name) => navigate(name)}
         onPickCountry={pickCountry}
       />
     )
   } else if (route.name === 'list') {
     screen = <ListScreen onBack={goBack} onPickCountry={pickCountry} />
+  } else if (route.name === 'list-continent') {
+    screen = <ListByContinentScreen onBack={goBack} onPickCountry={pickCountry} />
+  } else if (route.name === 'map') {
+    screen = <MapScreen onBack={goBack} onPickCountry={pickCountry} />
   } else if (route.name === 'detail' && route.country) {
-    screen = <DetailScreen country={route.country} onBack={goBack} />
+    screen = (
+      <DetailScreen
+        country={route.country}
+        onClose={closeDetail}
+        onReplace={(c) => replaceRoute('detail', c)}
+      />
+    )
   }
 
   return (

@@ -3,6 +3,7 @@ import { COUNTRIES } from '../data.js'
 
 export default function HomeScreen({ theme, onToggleTheme, onNavigate, onPickCountry }) {
   const [rolling, setRolling] = useState(false)
+  const [aboutOpen, setAboutOpen] = useState(false)
   const intervalRef = useRef(null)
 
   const handleRoll = () => {
@@ -23,12 +24,9 @@ export default function HomeScreen({ theme, onToggleTheme, onNavigate, onPickCou
 
   useEffect(() => () => clearInterval(intervalRef.current), [])
 
-  const restaurantCount = new Set(COUNTRIES.map(c => c.restaurant)).size
-
   return (
     <div className="screen home home-v2">
       <div className="home-top-v2">
-        <div className="kicker">{COUNTRIES.length} países · {restaurantCount} restaurantes</div>
         <h1 className="home-title-v2">
           Comidas<br/>
           do Mundo<br/>
@@ -38,23 +36,59 @@ export default function HomeScreen({ theme, onToggleTheme, onNavigate, onPickCou
 
       <div className="home-actions-v2">
         <button className="big-btn primary" onClick={() => onNavigate('list')}>
-          <span className="big-btn-label">ver lista</span>
-          <span className="big-btn-meta">países por grupo da Copa</span>
+          <span className="big-btn-label">por grupos da copa</span>
+          <span className="big-btn-arrow">→</span>
+        </button>
+        <button className="big-btn" onClick={() => onNavigate('list-continent')}>
+          <span className="big-btn-label">por continente</span>
+          <span className="big-btn-arrow">→</span>
+        </button>
+        <button className="big-btn" onClick={() => onNavigate('map')}>
+          <span className="big-btn-label">ver mapa da cidade</span>
           <span className="big-btn-arrow">→</span>
         </button>
         <button className="big-btn" onClick={handleRoll} disabled={rolling}>
           <span className="big-btn-label">{rolling ? 'sorteando…' : 'aleatório'}</span>
-          <span className="big-btn-meta">{rolling ? '🎲' : 'sorteie um país pra hoje'}</span>
-          <span className="big-btn-arrow">{rolling ? '🎲' : '↗'}</span>
+          <span className="big-btn-arrow">{rolling ? '🎲' : '→'}</span>
         </button>
       </div>
 
       <div className="home-foot">
-        <span>SP · Copa 2026</span>
+        <button className="home-foot-link" onClick={() => setAboutOpen(true)}>
+          Sobre o projeto
+        </button>
+        <a
+          className="home-foot-link"
+          href="https://www.linkedin.com/in/eugolucas/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Me adicione no LinkedIn
+        </a>
         <button className="theme-btn" onClick={onToggleTheme} title="Alternar tema">
           {theme === 'dark' ? '☀️' : '🌙'}
         </button>
       </div>
+
+      <div className="home-version">Comidas do Mundo 1.0 · maio de 2026</div>
+
+      {aboutOpen && (
+        <div className="modal-overlay" onClick={() => setAboutOpen(false)}>
+          <div className="modal-card" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setAboutOpen(false)}>×</button>
+            <h3 className="modal-title">Sobre o projeto</h3>
+            <p className="modal-text">
+              "Comidas do Mundo em SP" é um guia gastronômico interativo com{' '}
+              {COUNTRIES.length} países representados na Copa do Mundo 2026 —
+              cada um com um restaurante real em São Paulo onde você pode
+              experimentar a culinária daquele país.
+            </p>
+            <p className="modal-text">
+              Projeto criado por Lucas Gomes.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

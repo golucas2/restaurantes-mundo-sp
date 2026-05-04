@@ -1,38 +1,42 @@
 import { useState, useMemo, useRef } from 'react'
 import { COUNTRIES } from '../data.js'
 
-const GROUP_LETTERS = ['A','B','C','D','E','F','G','H','I','J','K','L']
+const CONFEDERATIONS = [
+  { key: 'UEFA',    label: 'UEFA',    sub: 'Europa' },
+  { key: 'CONMEBOL', label: 'CONMEBOL', sub: 'América do Sul' },
+  { key: 'CONCACAF', label: 'CONCACAF', sub: 'América do Norte e Caribe' },
+  { key: 'CAF',     label: 'CAF',     sub: 'África' },
+  { key: 'AFC',     label: 'AFC',     sub: 'Ásia e Oceania' },
+  { key: 'OFC',     label: 'OFC',     sub: 'Oceania' },
+]
 
-export default function ListScreen({ onBack, onPickCountry }) {
+export default function ListByContinentScreen({ onBack, onPickCountry }) {
   const [query, setQuery] = useState('')
   const topRef = useRef(null)
 
-  const groupsMap = useMemo(() => {
+  const confMap = useMemo(() => {
     const m = {}
-    GROUP_LETTERS.forEach(g => { m[g] = [] })
+    CONFEDERATIONS.forEach(c => { m[c.key] = [] })
     COUNTRIES.forEach(c => {
-      if (!c.group) return
+      const conf = c.confederation
+      if (!conf || !m[conf]) return
       const q = query.trim().toLowerCase()
       if (q && !c.name.toLowerCase().includes(q) &&
                !c.dish.toLowerCase().includes(q) &&
                !c.restaurant.toLowerCase().includes(q)) return
-      m[c.group].push(c)
+      m[conf].push(c)
     })
     return m
   }, [query])
 
-  const totalShown = Object.values(groupsMap).reduce((a, arr) => a + arr.length, 0)
-
-  const scrollToTop = () => {
-    topRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+  const totalShown = Object.values(confMap).reduce((a, arr) => a + arr.length, 0)
 
   return (
     <div className="screen list-v2" ref={topRef}>
       <div className="list-header">
         <button className="back-btn" onClick={onBack}>‹ voltar</button>
         <div className="list-title-block">
-          <div className="kicker">Copa do Mundo 2026</div>
+          <div className="kicker">Por Confederação</div>
           <h2 className="list-title">Comidas do mundo<br/>em São Paulo</h2>
         </div>
       </div>
@@ -49,18 +53,15 @@ export default function ListScreen({ onBack, onPickCountry }) {
       </div>
 
       <div className="groups-wrap">
-        {GROUP_LETTERS.map(g => {
-          const items = groupsMap[g]
-          if (items.length === 0 && query) return null
-          const isBrazilGroup = g === 'C'
+        {CONFEDERATIONS.map(conf => {
+          const items = confMap[conf.key]
+          if (!items || (items.length === 0 && query)) return null
           return (
-            <section key={g} className="group-block">
+            <section key={conf.key} className="group-block">
               <header className="group-header">
-                <span className={`group-letter${isBrazilGroup ? ' group-letter-brazil' : ''}`}>
-                  Grupo {g}
-                </span>
+                <span className="group-letter">{conf.label}</span>
                 <span className="group-rule" />
-                <span className="group-count">{items.length} {items.length === 1 ? 'país' : 'países'}</span>
+                <span className="group-count">{conf.sub}</span>
               </header>
               <div className="group-list">
                 {items.map((c, i) => (
@@ -82,14 +83,6 @@ export default function ListScreen({ onBack, onPickCountry }) {
           <div className="empty-state">
             nada encontrado pra "{query}".<br/>
             <button onClick={() => setQuery('')}>limpar busca</button>
-          </div>
-        )}
-
-        {!query && (
-          <div className="back-to-top-wrap">
-            <button className="back-to-top-btn" onClick={scrollToTop}>
-              ↑ voltar ao topo
-            </button>
           </div>
         )}
       </div>
