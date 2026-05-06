@@ -51,10 +51,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
             <div className="detail-card-rest-meta">
               <span className="rest-type-pill">{country.restType}</span>
               <br />
-              <span className="detail-card-bairro">📍 {country.neighborhood}</span>
-              {country.rating !== '—' && (
-                <span className="detail-card-rating">★ {country.rating}</span>
-              )}
+              <span className="detail-card-bairro">📍 {country.neighborhood} {country.rating !== '—' && `[${country.rating}]`}</span>
             </div>
           </div>
 
@@ -62,7 +59,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
           <div className="detail-card-actions">
             <div className="detail-card-actions-row">
               <a className="detail-action-btn primary" href={mapsUrl} target="_blank" rel="noreferrer">
-                Abrir no Maps {country.rating !== '—' && `[${country.rating}]`}
+                Abrir no Maps
               </a>
               <a className="detail-action-btn" href={instaUrl} target="_blank" rel="noreferrer">
                 Abrir no Insta
