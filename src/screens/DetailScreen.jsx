@@ -61,14 +61,14 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
           <div className="detail-card-actions">
             <div className="detail-card-actions-row">
               <a className="detail-action-btn primary" href={mapsUrl} target="_blank" rel="noreferrer">
-                MAPS
+                Abrir no Maps
               </a>
               <a className="detail-action-btn" href={instaUrl} target="_blank" rel="noreferrer">
-                INSTAGRAM
+                Abrir no Insta
               </a>
             </div>
             <button className="detail-action-btn full" onClick={handleShare}>
-              ENVIAR PARA O ZAP
+              Mandar pro Zap
             </button>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
 
       <div className="detail-home-wrap">
         <button className="big-btn" onClick={handleShareProject}>
-          <span className="big-btn-label">COMPARTILHAR O PROJETO</span>
+          <span className="big-btn-label">Mandar o projeto pra alguém</span>
         </button>
       </div>
     </div>
