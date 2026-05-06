@@ -77,13 +77,8 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
       </div>
 
       <div className="detail-home-wrap">
-        <button className="big-btn" onClick={onClose}>
-          <span className="big-btn-arrow">←</span>
-          <span className="big-btn-label">VOLTAR</span>
-        </button>
         <button className="big-btn" onClick={handleShareProject}>
           <span className="big-btn-label">COMPARTILHAR O PROJETO</span>
-          <span className="big-btn-arrow">→</span>
         </button>
       </div>
     </div>
