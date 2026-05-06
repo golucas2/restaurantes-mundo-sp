@@ -52,7 +52,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
               <span className="rest-type-pill">{country.restType}</span>
               <span className="detail-card-bairro">📍 {country.neighborhood}</span>
               {country.rating !== '—' && (
-                <span className="detail-card-rating">★ {country.rating} no google maps</span>
+                <span className="detail-card-rating">★ {country.rating} no Google Maps</span>
               )}
             </div>
           </div>
