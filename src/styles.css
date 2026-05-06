@@ -213,6 +213,11 @@ input { font: inherit; }
   height: 52px;
   margin-bottom: 12px;
 }
+.back-btn {
+  font-size: 24px;
+  margin-bottom: 16px;
+  padding: 8px 4px;
+}
 .list-title-block { margin-top: 2px; }
 .list-title {
   font-weight: 700;
