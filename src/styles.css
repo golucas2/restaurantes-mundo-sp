@@ -210,8 +210,8 @@ input { font: inherit; }
 .list-v2 { padding: 4px 0 120px; }
 .list-header { padding: 8px 24px 8px; }
 .back-btn-spacer {
-  height: 52px;
-  margin-bottom: 12px;
+  height: 28px;
+  margin-bottom: 6px;
 }
 .back-btn {
   font-size: 24px;
