@@ -51,7 +51,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
             <div className="detail-card-rest-meta">
               <span className="rest-type-pill">{country.restType}</span>
               <br />
-              <span className="detail-card-bairro">📍 {country.neighborhood} {country.rating !== '—' && `[${country.rating}]`}</span>
+              <span className="detail-card-bairro">📍 {country.neighborhood} {country.rating !== '—' && `★ ${country.rating} no google maps`}</span>
             </div>
           </div>
 
@@ -75,7 +75,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
       </div>
 
       <div className="detail-home-wrap">
-        <button className="big-btn" onClick={handleShareProject}>
+        <button className="big-btn" onClick={handleShareProject} style={{ justifyContent: 'center' }}>
           <span className="big-btn-label">MANDAR O PROJETO PRA ALGUÉM</span>
         </button>
       </div>
