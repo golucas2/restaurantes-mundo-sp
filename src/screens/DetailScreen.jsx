@@ -50,13 +50,9 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
             <h3 className="detail-card-rest-name">{country.restaurant}</h3>
             <div className="detail-card-rest-meta">
               <span className="rest-type-pill">{country.restType}</span>
-              <br />
               <span className="detail-card-bairro">📍 {country.neighborhood}</span>
               {country.rating !== '—' && (
-                <>
-                  <br />
-                  <span className="detail-card-rating">★ {country.rating} no google maps</span>
-                </>
+                <span className="detail-card-rating">★ {country.rating} no google maps</span>
               )}
             </div>
           </div>
