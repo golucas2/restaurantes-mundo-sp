@@ -16,8 +16,9 @@ export default function HomeScreen({ theme, onToggleTheme, onNavigate, onPickCou
       if (ticks >= total) {
         clearInterval(intervalRef.current)
         const idx = Math.floor(Math.random() * COUNTRIES.length)
+        const randomList = [...COUNTRIES].sort(() => Math.random() - 0.5)
         setRolling(false)
-        onPickCountry(COUNTRIES[idx])
+        onPickCountry(COUNTRIES[idx], randomList)
       }
     }, 60)
   }

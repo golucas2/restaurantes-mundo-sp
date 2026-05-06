@@ -52,7 +52,7 @@ export default function MapScreen({ onBack, onPickCountry }) {
   return (
     <div className="screen map-screen">
       <div className="list-header">
-        <div className="back-btn-spacer" />
+        <button className="back-btn" onClick={onBack}>‹</button>
         <div className="list-title-block">
           <div className="kicker">Pelo mapa da cidade</div>
           <h2 className="list-title">Mapa da cidade</h2>
