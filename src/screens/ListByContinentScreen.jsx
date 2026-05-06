@@ -10,6 +10,10 @@ const CONFEDERATIONS = [
   { key: 'OFC',     label: 'OFC',     sub: 'Oceania' },
 ]
 
+const CONF_ORDERED_LIST = CONFEDERATIONS.flatMap(conf =>
+  COUNTRIES.filter(c => c.confederation === conf.key)
+)
+
 export default function ListByContinentScreen({ onBack, onPickCountry }) {
   const [query, setQuery] = useState('')
   const topRef = useRef(null)
@@ -34,7 +38,7 @@ export default function ListByContinentScreen({ onBack, onPickCountry }) {
   return (
     <div className="screen list-v2" ref={topRef}>
       <div className="list-header">
-        <button className="back-btn" onClick={onBack}>‹ voltar</button>
+        <div className="back-btn-spacer" />
         <div className="list-title-block">
           <div className="kicker">Por Confederação</div>
           <h2 className="list-title">Comidas do mundo<br/>em São Paulo</h2>
@@ -65,7 +69,7 @@ export default function ListByContinentScreen({ onBack, onPickCountry }) {
               </header>
               <div className="group-list">
                 {items.map((c, i) => (
-                  <button key={c.code + i} className="flag-row" onClick={() => onPickCountry(c)}>
+                  <button key={c.code + i} className="flag-row" onClick={() => onPickCountry(c, CONF_ORDERED_LIST)}>
                     <span className="flag-row-flag">{c.flag}</span>
                     <span className="flag-row-name">{c.name}</span>
                     <span className="flag-row-arrow">›</span>
@@ -85,6 +89,13 @@ export default function ListByContinentScreen({ onBack, onPickCountry }) {
             <button onClick={() => setQuery('')}>limpar busca</button>
           </div>
         )}
+
+        <div className="detail-home-wrap">
+          <button className="big-btn rounded" onClick={onBack}>
+            <span className="big-btn-arrow">←</span>
+            <span className="big-btn-label">VOLTAR À HOME</span>
+          </button>
+        </div>
       </div>
     </div>
   )

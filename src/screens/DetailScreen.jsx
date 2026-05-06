@@ -1,28 +1,30 @@
-import { COUNTRIES } from '../data.js'
+const PROJECT_URL = 'https://comidas-mundo-sp.golucas.com.br'
 
-export default function DetailScreen({ country, onClose, onReplace }) {
+export default function DetailScreen({ country, list, onClose, onReplace }) {
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(country.restaurant + ' ' + country.neighborhood + ' São Paulo')}`
   const instaUrl = `https://www.instagram.com/${country.insta}/`
 
-  const idx = COUNTRIES.findIndex(c => c.code === country.code)
-  const prev = idx > 0 ? COUNTRIES[idx - 1] : null
-  const next = idx < COUNTRIES.length - 1 ? COUNTRIES[idx + 1] : null
+  const idx = list.findIndex(c => c.code === country.code)
+  const prev = list[(idx - 1 + list.length) % list.length]
+  const next = list[(idx + 1) % list.length]
 
-  const handleShare = async () => {
-    const text = `${country.flag} ${country.name} em SP: ${country.dish} no ${country.restaurant} (${country.neighborhood})`
-    if (navigator.share) {
-      await navigator.share({ title: 'Comidas do Mundo em SP', text })
-    } else {
-      await navigator.clipboard.writeText(text)
-    }
+  const handleShare = () => {
+    const text = `🌍⚽ Comidas do mundo em SP!\n\nOlha este restaurante com comidas da ${country.name}: ${instaUrl}\n\nTem mais restaurantes aqui ${PROJECT_URL}\n\nBom passeio!`
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noreferrer')
+  }
+
+  const handleShareProject = () => {
+    const text = `🌍⚽ Comidas do mundo em SP: onde comer pratos dos países da copa na cidade?\n\nFiz um guia com restaurantes de cada seleção — dá uma olhada!\n${PROJECT_URL}\n\nAté lá!`
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noreferrer')
   }
 
   return (
     <div className="screen detail-card-screen">
+      <div className="list-header" style={{ width: '100%' }}>
+        <div className="back-btn-spacer" />
+      </div>
       <div className="detail-nav-row">
-        {prev ? (
-          <button className="detail-nav-btn" onClick={() => onReplace(prev)}>‹</button>
-        ) : <span />}
+        <button className="detail-nav-btn" onClick={() => onReplace(prev)}>‹</button>
 
         <div className="detail-card">
           {/* Header */}
@@ -59,24 +61,31 @@ export default function DetailScreen({ country, onClose, onReplace }) {
           <div className="detail-card-actions">
             <div className="detail-card-actions-row">
               <a className="detail-action-btn primary" href={mapsUrl} target="_blank" rel="noreferrer">
-                GOOGLE MAPS
+                MAPS
               </a>
               <a className="detail-action-btn" href={instaUrl} target="_blank" rel="noreferrer">
                 INSTAGRAM
               </a>
             </div>
             <button className="detail-action-btn full" onClick={handleShare}>
-              COMPARTILHAR
+              ENVIAR PARA O ZAP
             </button>
           </div>
         </div>
 
-        {next ? (
-          <button className="detail-nav-btn" onClick={() => onReplace(next)}>›</button>
-        ) : <span />}
+        <button className="detail-nav-btn" onClick={() => onReplace(next)}>›</button>
       </div>
 
-      <button className="detail-back-link" onClick={onClose}>← voltar</button>
+      <div className="detail-home-wrap">
+        <button className="big-btn" onClick={onClose}>
+          <span className="big-btn-arrow">←</span>
+          <span className="big-btn-label">VOLTAR</span>
+        </button>
+        <button className="big-btn" onClick={handleShareProject}>
+          <span className="big-btn-label">COMPARTILHAR O PROJETO</span>
+          <span className="big-btn-arrow">→</span>
+        </button>
+      </div>
     </div>
   )
 }

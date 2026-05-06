@@ -27,15 +27,8 @@ export default function MapScreen({ onBack, onPickCountry }) {
       maxZoom: 19,
     }).addTo(map)
 
-    // Group countries by bairro to apply jitter
-    const bairroCount = {}
-    COUNTRIES.forEach(c => {
-      bairroCount[c.neighborhood] = (bairroCount[c.neighborhood] || 0) + 1
-    })
-
     COUNTRIES.forEach((c, i) => {
-      const base = BAIRRO_COORDS[c.neighborhood] || [-23.565, -46.655]
-      const coords = bairroCount[c.neighborhood] > 1 ? jitter(base, i) : base
+      const coords = c.coords || BAIRRO_COORDS[c.neighborhood] || [-23.565, -46.655]
 
       const icon = L.divIcon({
         className: '',
@@ -59,15 +52,24 @@ export default function MapScreen({ onBack, onPickCountry }) {
   return (
     <div className="screen map-screen">
       <div className="list-header">
-        <button className="back-btn" onClick={onBack}>‹ voltar</button>
+        <div className="back-btn-spacer" />
         <div className="list-title-block">
-          <div className="kicker">{COUNTRIES.length} restaurantes</div>
+          <div className="kicker">Pelo mapa da cidade</div>
           <h2 className="list-title">Mapa da cidade</h2>
           <p className="map-sub">Toque numa bandeira pra ver a ficha do país.</p>
         </div>
       </div>
 
-      <div ref={mapRef} className="map-container" />
+      <div className="map-box-wrap">
+        <div ref={mapRef} className="map-container" />
+      </div>
+      <p className="map-disclaimer">⚠ As localizações são aproximadas e podem não refletir o endereço exato do restaurante.</p>
+      <div className="detail-home-wrap">
+        <button className="big-btn rounded" onClick={onBack}>
+          <span className="big-btn-arrow">←</span>
+          <span className="big-btn-label">VOLTAR À HOME</span>
+        </button>
+      </div>
     </div>
   )
 }

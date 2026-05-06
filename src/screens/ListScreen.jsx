@@ -1,11 +1,10 @@
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo } from 'react'
 import { COUNTRIES } from '../data.js'
 
 const GROUP_LETTERS = ['A','B','C','D','E','F','G','H','I','J','K','L']
 
 export default function ListScreen({ onBack, onPickCountry }) {
   const [query, setQuery] = useState('')
-  const topRef = useRef(null)
 
   const groupsMap = useMemo(() => {
     const m = {}
@@ -23,16 +22,12 @@ export default function ListScreen({ onBack, onPickCountry }) {
 
   const totalShown = Object.values(groupsMap).reduce((a, arr) => a + arr.length, 0)
 
-  const scrollToTop = () => {
-    topRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <div className="screen list-v2" ref={topRef}>
+    <div className="screen list-v2">
       <div className="list-header">
-        <button className="back-btn" onClick={onBack}>‹ voltar</button>
+        <div className="back-btn-spacer" />
         <div className="list-title-block">
-          <div className="kicker">Copa do Mundo 2026</div>
+          <div className="kicker">Por grupos da copa</div>
           <h2 className="list-title">Comidas do mundo<br/>em São Paulo</h2>
         </div>
       </div>
@@ -64,7 +59,7 @@ export default function ListScreen({ onBack, onPickCountry }) {
               </header>
               <div className="group-list">
                 {items.map((c, i) => (
-                  <button key={c.code + i} className="flag-row" onClick={() => onPickCountry(c)}>
+                  <button key={c.code + i} className="flag-row" onClick={() => onPickCountry(c, COUNTRIES)}>
                     <span className="flag-row-flag">{c.flag}</span>
                     <span className="flag-row-name">{c.name}</span>
                     <span className="flag-row-arrow">›</span>
@@ -85,13 +80,12 @@ export default function ListScreen({ onBack, onPickCountry }) {
           </div>
         )}
 
-        {!query && (
-          <div className="back-to-top-wrap">
-            <button className="back-to-top-btn" onClick={scrollToTop}>
-              ↑ voltar ao topo
-            </button>
-          </div>
-        )}
+        <div className="detail-home-wrap">
+          <button className="big-btn rounded" onClick={onBack}>
+            <span className="big-btn-arrow">←</span>
+            <span className="big-btn-label">VOLTAR À HOME</span>
+          </button>
+        </div>
       </div>
     </div>
   )

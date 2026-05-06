@@ -1,14 +1,24 @@
 import { useState, useEffect } from 'react'
 import { IOSDevice } from './components/IOSFrame.jsx'
+import { COUNTRIES } from './data.js'
 import HomeScreen from './screens/HomeScreen.jsx'
 import ListScreen from './screens/ListScreen.jsx'
 import ListByContinentScreen from './screens/ListByContinentScreen.jsx'
 import MapScreen from './screens/MapScreen.jsx'
 import DetailScreen from './screens/DetailScreen.jsx'
 
+const scrollToTop = () => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const root = document.querySelector('.app-root')
+      if (root) root.scrollTop = 0
+    })
+  })
+}
+
 export default function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('comidas-theme') || 'light')
-  const [route, setRoute] = useState({ name: 'home', country: null })
+  const [route, setRoute] = useState({ name: 'home', country: null, list: COUNTRIES })
   const [history, setHistory] = useState([])
 
   useEffect(() => {
@@ -16,25 +26,17 @@ export default function App() {
     localStorage.setItem('comidas-theme', theme)
   }, [theme])
 
-  const navigate = (name, country = null) => {
+  const navigate = (name, country = null, list = null) => {
     setHistory(h => [...h, route])
-    setRoute({ name, country })
-    requestAnimationFrame(() => {
-      const root = document.querySelector('.app-root')
-      if (root) root.scrollTop = 0
-    })
+    setRoute({ name, country, list: list || COUNTRIES })
+    scrollToTop()
   }
 
-  // Replace current route without pushing to history (used for prev/next in detail)
-  const replaceRoute = (name, country = null) => {
-    setRoute({ name, country })
-    requestAnimationFrame(() => {
-      const root = document.querySelector('.app-root')
-      if (root) root.scrollTop = 0
-    })
+  const replaceRoute = (name, country = null, list = null) => {
+    setRoute({ name, country, list: list || COUNTRIES })
+    scrollToTop()
   }
 
-  // Close detail — goes back to origin screen (home or list), not prev detail
   const closeDetail = () => {
     const origin = [...history].reverse().find(r => r.name !== 'detail')
     if (origin) {
@@ -43,12 +45,9 @@ export default function App() {
       setRoute(origin)
     } else {
       setHistory([])
-      setRoute({ name: 'home', country: null })
+      setRoute({ name: 'home', country: null, list: COUNTRIES })
     }
-    requestAnimationFrame(() => {
-      const root = document.querySelector('.app-root')
-      if (root) root.scrollTop = 0
-    })
+    scrollToTop()
   }
 
   const goBack = () => {
@@ -57,15 +56,12 @@ export default function App() {
       setHistory(h => h.slice(0, -1))
       setRoute(prev)
     } else {
-      setRoute({ name: 'home', country: null })
+      setRoute({ name: 'home', country: null, list: COUNTRIES })
     }
-    requestAnimationFrame(() => {
-      const root = document.querySelector('.app-root')
-      if (root) root.scrollTop = 0
-    })
+    scrollToTop()
   }
 
-  const pickCountry = (country) => navigate('detail', country)
+  const pickCountry = (country, list = null) => navigate('detail', country, list || COUNTRIES)
   const dark = theme === 'dark'
 
   let screen
@@ -88,8 +84,10 @@ export default function App() {
     screen = (
       <DetailScreen
         country={route.country}
+        list={route.list}
         onClose={closeDetail}
-        onReplace={(c) => replaceRoute('detail', c)}
+        onReplace={(c) => replaceRoute('detail', c, route.list)}
+        onHome={() => navigate('home')}
       />
     )
   }

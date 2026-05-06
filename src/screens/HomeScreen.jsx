@@ -78,13 +78,10 @@ export default function HomeScreen({ theme, onToggleTheme, onNavigate, onPickCou
             <button className="modal-close" onClick={() => setAboutOpen(false)}>×</button>
             <h3 className="modal-title">Sobre o projeto</h3>
             <p className="modal-text">
-              "Comidas do Mundo em SP" é um guia gastronômico interativo com{' '}
-              {COUNTRIES.length} países representados na Copa do Mundo 2026 —
-              cada um com um restaurante real em São Paulo onde você pode
-              experimentar a culinária daquele país.
+              Há quem diga que a cidade de São Paulo é o mundo e que nela se encontra a culinária de qualquer lugar do mundo. Decidi usar minha inquietude para validar esta hipótese e, de quebra, aprender novas ferramentas me divertindo.
             </p>
             <p className="modal-text">
-              Projeto criado por Lucas Gomes.
+              Este projeto nasceu do encontro de dois dos meus hiperfocos mais duradouros: a Copa do Mundo e o design de informação. A ideia foi simples: mapear onde comer um prato de cada país que vai disputar a copa de 2026 e testar possibilidades no Claude Design.
             </p>
           </div>
         </div>
