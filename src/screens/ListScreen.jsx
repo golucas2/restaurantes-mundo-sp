@@ -25,7 +25,7 @@ export default function ListScreen({ onBack, onPickCountry }) {
   return (
     <div className="screen list-v2">
       <div className="list-header">
-        <div className="back-btn-spacer" />
+        <button className="back-btn" onClick={onBack}>‹</button>
         <div className="list-title-block">
           <div className="kicker">Por grupos da copa</div>
           <h2 className="list-title">Comidas do mundo<br/>em São Paulo</h2>

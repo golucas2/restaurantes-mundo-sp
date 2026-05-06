@@ -38,7 +38,7 @@ export default function ListByContinentScreen({ onBack, onPickCountry }) {
   return (
     <div className="screen list-v2" ref={topRef}>
       <div className="list-header">
-        <div className="back-btn-spacer" />
+        <button className="back-btn" onClick={onBack}>‹</button>
         <div className="list-title-block">
           <div className="kicker">Por Confederação</div>
           <h2 className="list-title">Comidas do mundo<br/>em São Paulo</h2>

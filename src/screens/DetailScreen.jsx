@@ -78,7 +78,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
 
       <div className="detail-home-wrap">
         <button className="big-btn" onClick={handleShareProject}>
-          <span className="big-btn-label">Mandar o projeto pra alguém</span>
+          <span className="big-btn-label">MANDAR O PROJETO PRA ALGUÉM</span>
         </button>
       </div>
     </div>
