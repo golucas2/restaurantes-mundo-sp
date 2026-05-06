@@ -72,7 +72,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
               </a>
             </div>
             <button className="detail-action-btn full" onClick={handleShare}>
-              Mandar pro Zap
+              Mandar para o Zap
             </button>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function DetailScreen({ country, list, onClose, onReplace }) {
 
       <div className="detail-home-wrap">
         <button className="big-btn" onClick={handleShareProject} style={{ justifyContent: 'center' }}>
-          <span className="big-btn-label">MANDAR O PROJETO PRA ALGUÉM</span>
+          <span className="big-btn-label">MANDAR O PROJETO PARA ALGUÉM</span>
         </button>
       </div>
     </div>
