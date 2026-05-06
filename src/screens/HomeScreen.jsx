@@ -65,9 +65,8 @@ export default function HomeScreen({ theme, onToggleTheme, onNavigate, onPickCou
         >
           Me adicione no LinkedIn
         </a>
-        <button className="theme-btn" onClick={onToggleTheme} title="Alternar tema">
-          {theme === 'dark' ? '☀️' : '🌙'}
-        </button>
+        <button className="theme-btn" onClick={onToggleTheme} title="Alternar tema" />
+
       </div>
 
       <div className="home-version">Comidas do Mundo 1.0 · maio de 2026</div>
